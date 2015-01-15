@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SlimDX.DXGI;
-using FeralTic.Utils;
+
 
 
 namespace VVVV.DX11.Lib.Devices

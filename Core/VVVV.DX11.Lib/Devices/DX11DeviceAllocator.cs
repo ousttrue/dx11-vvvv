@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using FeralTic.DX11;
-using FeralTic.Utils;
+
 
 namespace VVVV.DX11.Lib.Devices
 {
@@ -84,8 +84,7 @@ namespace VVVV.DX11.Lib.Devices
                 {
                     //Send event device gonna be disposed
                     this.OnDeviceDisposing(device);
-
-                    this.devicemanager.DestroyContext(device.Screen);
+                    this.devicemanager.DestroyContext(device);
                 }
             }
             else

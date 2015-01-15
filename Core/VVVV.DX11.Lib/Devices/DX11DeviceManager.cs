@@ -5,7 +5,6 @@ using System.Text;
 using SlimDX.Direct3D11;
 
 using FeralTic.DX11;
-using FeralTic.Utils;
 using VVVV.Core.Logging;
 using SlimDX.DXGI;
 
@@ -18,7 +17,7 @@ namespace VVVV.DX11.Lib.Devices
     {
         event RenderContextCreatedDelegate RenderContextCreated;
         DX11RenderContext GetRenderContext(DXGIScreen screen);
-        void DestroyContext(DXGIScreen screen);
+        void DestroyContext(DX11RenderContext context);
         List<DX11RenderContext> RenderContexts { get; }
         DX11DisplayManager DisplayManager { get; }
         bool Reallocate { get; }
@@ -80,14 +79,14 @@ namespace VVVV.DX11.Lib.Devices
                 #if DEBUG
                 try
                 {
-                    ctx = new DX11RenderContext(this.displaymanager.Factory, screen, this.flags);
+                    ctx = new DX11RenderContext(screen.Adapter, this.flags);
                 }
                 catch
                 {
                     this.logger.Log(LogType.Warning, "Could not create debug device, if you want debug informations make sure DirectX SDK is installed");
                     this.logger.Log(LogType.Warning, "Creating default DirectX 11 device");
                     this.flags = DeviceCreationFlags.BgraSupport;
-                    ctx = new DX11RenderContext(this.displaymanager.Factory, screen, this.flags);
+                    ctx = new DX11RenderContext(screen.Adapter, this.flags);
                 }
                 #else
                 ctx = new DX11RenderContext(this.displaymanager.Factory, screen, this.flags);
@@ -110,14 +109,16 @@ namespace VVVV.DX11.Lib.Devices
         /// Destroys a device from an adapter
         /// </summary>
         /// <param name="adapter">Adapter index</param>
-        public virtual void DestroyContext(DXGIScreen screen)
+        public virtual void DestroyContext(DX11RenderContext context)
         {
-            T key = this.GetDeviceKey(screen);
-
-            if (contexts.ContainsKey(key))
+            foreach(var pair in contexts)
             {
-                contexts[key].Dispose();
-                contexts.Remove(key);
+                if (pair.Value == context)
+                {
+                    contexts.Remove(pair.Key);
+                    context.Dispose();
+                    return;
+                }
             }
         }
 
@@ -143,7 +144,6 @@ namespace VVVV.DX11.Lib.Devices
 
     public class DX11PerAdapterDeviceManager : AbstractDX11RenderContextManager<int>
     {
-
         public DX11PerAdapterDeviceManager(ILogger logger, DX11DisplayManager displaymanager) : base(logger, displaymanager)
         { 
         }
@@ -216,7 +216,7 @@ namespace VVVV.DX11.Lib.Devices
             return this.context;
         }
 
-        public override void DestroyContext(DXGIScreen screen)
+        public override void DestroyContext(DX11RenderContext context)
         {
             //Do nothing here
         }

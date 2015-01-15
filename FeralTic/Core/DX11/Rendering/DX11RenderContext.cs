@@ -1,6 +1,5 @@
 ﻿using FeralTic.DX11.Geometry;
 using FeralTic.DX11.Resources;
-using FeralTic.Utils;
 using System;
 
 
@@ -9,7 +8,6 @@ namespace FeralTic.DX11
     public partial class DX11RenderContext : IDisposable
     {
         public SlimDX.Direct3D11.Device Device { get; private set; }
-        public DXGIScreen Screen { get; private set; }
 
         public DefaultTextures DefaultTextures { get; private set; }
         public DX11ResourcePoolManager ResourcePool { get; private set; }
@@ -21,57 +19,45 @@ namespace FeralTic.DX11
         private SlimDX.Direct3D11.ShaderResourceView[] nullsrvs = new SlimDX.Direct3D11.ShaderResourceView[128];
         private SlimDX.Direct3D11.UnorderedAccessView[] nulluavs = new SlimDX.Direct3D11.UnorderedAccessView[8];
 
+        /// <summary>
+        /// create from primary adapter
+        /// </summary>
+        /// <param name="flags"></param>
         public DX11RenderContext(SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
         {
             this.Device = new SlimDX.Direct3D11.Device(SlimDX.Direct3D11.DriverType.Hardware, flags);
-            SetAdapter();
         }
 
-        public DX11RenderContext(SlimDX.DXGI.Factory1 factory, DXGIScreen screen
-            , SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
-        {
-            this.Screen = screen;
-            this.Device = new SlimDX.Direct3D11.Device(screen.Adapter, flags);
-        }
-
-        public DX11RenderContext(SlimDX.DXGI.Adapter1 adapter, SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
+        /// <summary>
+        /// create from specified adapter
+        /// </summary>
+        /// <param name="adapter"></param>
+        /// <param name="flags"></param>
+        public DX11RenderContext(SlimDX.DXGI.Adapter adapter, SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
         {
             this.Device = new SlimDX.Direct3D11.Device(adapter, flags);
-            SetAdapter();
         }
 
+        /// <summary>
+        /// create from exist device
+        /// who should dispose ?
+        /// </summary>
+        /// <param name="device"></param>
         public DX11RenderContext(SlimDX.Direct3D11.Device device)
         {
             this.Device = device;
-            SetAdapter();
         }
 
-        void SetAdapter()
+        public SlimDX.DXGI.Adapter Adapter
         {
-            var factory = this.Device.Factory;
-            using (var dxgiDevice = new SlimDX.DXGI.Device(this.Device))
+            get
             {
-                var adapterCount = factory.GetAdapterCount();
-                for (int i = 0; i < adapterCount; ++i)
+                var factory = this.Device.Factory;
+                using (var dxgiDevice = new SlimDX.DXGI.Device(this.Device))
                 {
-                    var adapter = factory.GetAdapter(i);
-                    if (adapter == dxgiDevice.Adapter)
-                    {
-                        if (adapter.GetOutputCount() > 0)
-                        {
-                            var output = adapter.GetOutput(0);
-                            this.Screen = new DXGIScreen(i, adapter, 0, output);
-                        }
-                        else
-                        {
-                            this.Screen = new DXGIScreen(i, adapter, -1, null);
-                        }
-                        break;
-                    }
-                    adapter.Dispose();
+                    return dxgiDevice.Adapter;
                 }
             }
-
         }
 
         public void Initialize(int schedulerthreadcount = 1)

@@ -48,6 +48,7 @@
     <Compile Include="Devices\DX11EnumFormatHelper.cs" />
     <Compile Include="Devices\DX11FileTexturePool.cs" />
     <Compile Include="Devices\DX11GlobalDevice.cs" />
+    <Compile Include="Devices\DXGIScreen.cs" />
     <Compile Include="Effects\DX11BaseShaderNode.cs" />
     <Compile Include="Effects\DX11ImageShaderNode.cs" />
     <Compile Include="Effects\DX11ShaderData.cs" />

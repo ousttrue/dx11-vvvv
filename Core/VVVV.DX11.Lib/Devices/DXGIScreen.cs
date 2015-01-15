@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SlimDX.DXGI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SlimDX.DXGI;
 
-namespace FeralTic.Utils
+namespace VVVV.DX11.Lib.Devices
 {
     public class DXGIScreen
     {

@@ -113,7 +113,7 @@ namespace VVVV.DX11.Nodes
         public void Render(DX11RenderContext context)
         {
             Device device = context.Device;
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             //Just in case
             if (!this.updateddevices.Contains(context))
@@ -134,7 +134,7 @@ namespace VVVV.DX11.Nodes
                     this.BeginQuery(context);
                 }
 
-                context.CurrentDeviceContext.OutputMerger.SetTargets(new RenderTargetView[0]);
+                context.Device.ImmediateContext.OutputMerger.SetTargets(new RenderTargetView[0]);
 
                 int rtmax = Math.Max(this.FInProjection.SliceCount, this.FInView.SliceCount);
 

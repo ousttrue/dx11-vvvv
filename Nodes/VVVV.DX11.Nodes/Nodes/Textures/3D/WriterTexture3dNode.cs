@@ -83,7 +83,7 @@ namespace VVVV.DX11.Nodes
                             {
                                 path += ".dds";
                             }
-                            Texture3D.SaveTextureToFile(this.AssignedContext.CurrentDeviceContext, this.FTextureIn[i][context].Resource, ImageFileFormat.Dds, path);
+                            Texture3D.SaveTextureToFile(this.AssignedContext.Device.ImmediateContext, this.FTextureIn[i][context].Resource, ImageFileFormat.Dds, path);
                             this.FOutValid[0] = true;
                         }
                         catch (Exception ex)

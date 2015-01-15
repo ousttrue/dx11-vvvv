@@ -248,8 +248,8 @@ namespace VVVV.Nodes
                         
                         geom.VertexBuffer = BufferHelper.CreateDynamicVertexBuffer(context, Pos3Norm3Vertex.VertexSize * NumVertices);
 
-                        sVx = context.CurrentDeviceContext.MapSubresource(geom.VertexBuffer, SlimDX.Direct3D11.MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None).Data;
-                        //sIx = context.CurrentDeviceContext.MapSubresource(geom.IndexBuffer.Buffer, SlimDX.Direct3D11.MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.DoNotWait).Data;
+                        sVx = context.Device.ImmediateContext.MapSubresource(geom.VertexBuffer, SlimDX.Direct3D11.MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None).Data;
+                        //sIx = context.Device.ImmediateContext.MapSubresource(geom.IndexBuffer.Buffer, SlimDX.Direct3D11.MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.DoNotWait).Data;
                         
                         // write buffers
                         unsafe
@@ -267,7 +267,7 @@ namespace VVVV.Nodes
                             }*/
                         }
 
-                        context.CurrentDeviceContext.UnmapSubresource(geom.VertexBuffer, 0);
+                        context.Device.ImmediateContext.UnmapSubresource(geom.VertexBuffer, 0);
 
 
                         unsafe

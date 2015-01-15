@@ -100,7 +100,7 @@ namespace FeralTic.DX11
 
         public void Apply(DX11RenderContext context)
         {
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             RasterizerState rs = RasterizerState.FromDescription(context.Device, this.Rasterizer);
             DepthStencilState ds = DepthStencilState.FromDescription(context.Device, this.DepthStencil);

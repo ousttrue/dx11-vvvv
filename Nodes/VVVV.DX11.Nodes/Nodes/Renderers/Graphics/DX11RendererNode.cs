@@ -426,7 +426,7 @@ namespace VVVV.DX11.Nodes
                     if (this.FInClear[0])
                     {
                         //Remove Shader view if bound as is
-                        context.CurrentDeviceContext.ClearRenderTargetView(chain.RTV, this.FInBgColor[0].Color);
+                        context.Device.ImmediateContext.ClearRenderTargetView(chain.RTV, this.FInBgColor[0].Color);
                     }
 
                     if (this.FInClearDepth[0])

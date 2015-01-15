@@ -206,7 +206,7 @@ namespace VVVV.DX11
         {
             if (this.sd.Count > 1)
             {
-                context.CurrentDeviceContext.ResolveSubresource(targets[context].Resource, 0, targetresolve[context].Resource,
+                context.Device.ImmediateContext.ResolveSubresource(targets[context].Resource, 0, targetresolve[context].Resource,
                     0, targets[context].Format);
             }
 
@@ -214,7 +214,7 @@ namespace VVVV.DX11
             {
                 for (int i = 0; i < this.FOutBuffers.SliceCount; i++)
                 {
-                    context.CurrentDeviceContext.GenerateMips(targets[context].SRV);
+                    context.Device.ImmediateContext.GenerateMips(targets[context].SRV);
                 }
             }
         }

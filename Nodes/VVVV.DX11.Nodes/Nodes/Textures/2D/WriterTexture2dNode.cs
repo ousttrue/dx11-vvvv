@@ -81,7 +81,7 @@ namespace VVVV.DX11.Nodes
 
                         try
                         {
-                            Texture2D.SaveTextureToFile(this.AssignedContext.CurrentDeviceContext, this.FTextureIn[i][this.AssignedContext].Resource, this.FInFormat[i], this.FInPath[i]);
+                            Texture2D.SaveTextureToFile(this.AssignedContext.Device.ImmediateContext, this.FTextureIn[i][this.AssignedContext].Resource, this.FInFormat[i], this.FInPath[i]);
                             this.FOutValid[0] = true;
                         }
                         catch (Exception ex)

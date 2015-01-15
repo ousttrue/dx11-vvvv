@@ -253,7 +253,7 @@ namespace VVVV.DX11.Nodes.Layers
         public void Render(IPluginIO pin, DX11RenderContext context, DX11RenderSettings settings)
         {
             Device device = context.Device;
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             bool popstate = false;
 

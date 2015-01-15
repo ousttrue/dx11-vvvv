@@ -51,9 +51,9 @@ namespace FeralTic.DX11.Resources
         {
             set
             {
-                DataBox db = context.CurrentDeviceContext.MapSubresource(this.Buffer, MapMode.WriteDiscard, MapFlags.None);
+                DataBox db = context.Device.ImmediateContext.MapSubresource(this.Buffer, MapMode.WriteDiscard, MapFlags.None);
                 db.Data.Write<T>(value);
-                context.CurrentDeviceContext.UnmapSubresource(this.Buffer, 0);
+                context.Device.ImmediateContext.UnmapSubresource(this.Buffer, 0);
             }
         }
 

@@ -51,7 +51,7 @@ namespace FeralTic.DX11.Resources
 
         public void UpdateBuffer()
         {
-            this.context.CurrentDeviceContext.CopyResource(this.m_structuredBuffer.Buffer, this.Buffer);
+            this.context.Device.ImmediateContext.CopyResource(this.m_structuredBuffer.Buffer, this.Buffer);
         }
 
         public void Dispose()
@@ -77,11 +77,11 @@ namespace FeralTic.DX11.Resources
                 staging = new SlimDX.Direct3D11.Buffer(context.Device, bd);
             }
 
-            this.context.CurrentDeviceContext.CopyResource(this.Buffer, staging);
+            this.context.Device.ImmediateContext.CopyResource(this.Buffer, staging);
 
-            DataBox db = this.context.CurrentDeviceContext.MapSubresource(staging, MapMode.Read, MapFlags.None);
+            DataBox db = this.context.Device.ImmediateContext.MapSubresource(staging, MapMode.Read, MapFlags.None);
             T data = db.Data.Read<T>();
-            this.context.CurrentDeviceContext.UnmapSubresource(staging, 0);
+            this.context.Device.ImmediateContext.UnmapSubresource(staging, 0);
 
             return data;
         }

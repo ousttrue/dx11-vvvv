@@ -76,8 +76,8 @@ namespace FeralTic.DX11.Resources
 
         public void Bind(InputLayout layout, int slot = 0)
         {
-            this.context.CurrentDeviceContext.InputAssembler.InputLayout = layout;
-            this.context.CurrentDeviceContext.InputAssembler.SetVertexBuffers(slot, new VertexBufferBinding(this.Buffer, this.VertexSize,0));
+            this.context.Device.ImmediateContext.InputAssembler.InputLayout = layout;
+            this.context.Device.ImmediateContext.InputAssembler.SetVertexBuffers(slot, new VertexBufferBinding(this.Buffer, this.VertexSize,0));
         }
 
         public void Dispose()

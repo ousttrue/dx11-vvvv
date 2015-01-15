@@ -57,7 +57,7 @@ namespace FeralTic.DX11.Resources
 
         public override void Draw()
         {
-            Draw(this.context.CurrentDeviceContext);
+            Draw(this.context.Device.ImmediateContext);
         }
 
         public override void Draw(DeviceContext ctx)
@@ -73,7 +73,7 @@ namespace FeralTic.DX11.Resources
 
         public override void Bind(InputLayout layout)
         {
-            Bind(context.CurrentDeviceContext, layout);
+            Bind(context.Device.ImmediateContext, layout);
         }
 
         public override void Dispose()

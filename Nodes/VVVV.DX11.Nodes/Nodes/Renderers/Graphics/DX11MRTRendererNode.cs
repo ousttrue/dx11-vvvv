@@ -166,7 +166,7 @@ namespace VVVV.DX11
             {
                 for (int i = 0; i < this.FOutBuffers.SliceCount; i++)
                 {
-                    context.CurrentDeviceContext.GenerateMips(this.FOutBuffers[i][context].SRV);
+                    context.Device.ImmediateContext.GenerateMips(this.FOutBuffers[i][context].SRV);
                 }
             }
         }

@@ -68,9 +68,9 @@ namespace VVVV.DX11.Nodes
                         this.lasttexture = DX11Texture2D.FromDescription(context, texture.Description);
                     }
 
-                    context.CurrentDeviceContext.CopyResource(texture.Resource, this.lasttexture.Resource);
+                    context.Device.ImmediateContext.CopyResource(texture.Resource, this.lasttexture.Resource);
 
-                    if (this.FInFlush[0]) { context.CurrentDeviceContext.Flush(); }
+                    if (this.FInFlush[0]) { context.Device.ImmediateContext.Flush(); }
                 }
                 else
                 {

@@ -115,7 +115,7 @@ namespace FeralTic.DX11.Resources
                 if (cleardepth) { flags = DepthStencilClearFlags.Depth; }
                 if (clearstencil) { flags |= DepthStencilClearFlags.Stencil; }
 
-                this.context.CurrentDeviceContext.ClearDepthStencilView(this.DSV, flags, depth, stencil);
+                this.context.Device.ImmediateContext.ClearDepthStencilView(this.DSV, flags, depth, stencil);
             }
 
             

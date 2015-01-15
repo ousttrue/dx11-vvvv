@@ -133,7 +133,7 @@ namespace FeralTic.DX11.Resources
 
         public void Bind()
         {
-            Bind(this.context.CurrentDeviceContext);
+            Bind(this.context.Device.ImmediateContext);
         }
 
         public void Dispose()

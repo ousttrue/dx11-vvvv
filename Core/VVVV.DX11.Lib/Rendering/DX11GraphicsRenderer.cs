@@ -60,11 +60,11 @@ namespace VVVV.DX11.Lib.Rendering
 
             /*if (this.DSV != null && this.EnableDepth)
             {
-                this.context.CurrentDeviceContext.OutputMerger.SetTargets(this.DSV, this.rtvs);
+                this.context.Device.ImmediateContext.OutputMerger.SetTargets(this.DSV, this.rtvs);
             }
             else
             {
-                this.context.CurrentDeviceContext.OutputMerger.SetTargets(this.rtvs);
+                this.context.Device.ImmediateContext.OutputMerger.SetTargets(this.rtvs);
             }*/
         }
         #endregion
@@ -73,14 +73,14 @@ namespace VVVV.DX11.Lib.Rendering
         {
             foreach (IDX11RenderTargetView view in this.rtvs)
             {  
-                this.context.CurrentDeviceContext.ClearRenderTargetView(view.RTV, clearcolor);
+                this.context.Device.ImmediateContext.ClearRenderTargetView(view.RTV, clearcolor);
             }
         }
 
         public void CleanTargets()
         {
             this.context.RenderTargetStack.Pop();
-            //this.context.CurrentDeviceContext.OutputMerger.SetTargets(new RenderTargetView[0]);
+            //this.context.Device.ImmediateContext.OutputMerger.SetTargets(new RenderTargetView[0]);
         }
 
 

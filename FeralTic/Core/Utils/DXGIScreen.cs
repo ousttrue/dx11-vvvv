@@ -10,15 +10,23 @@ namespace FeralTic.Utils
     {
         public DXGIScreen()
         {
-            this.Adapter = null;
             this.AdapterId = -1;
-            this.Monitor = null;
+            this.Adapter = null;
             this.MonitorId = -1;
+            this.Monitor = null;
         }
 
-        public int AdapterId { get; set; }
-        public Adapter1 Adapter { get; set; }
-        public int MonitorId { get; set; }
-        public Output Monitor { get; set; }
+        public DXGIScreen(int adapterId, Adapter adapter, int monitorId, Output monitor)
+        {
+            this.AdapterId = adapterId;
+            this.Adapter = adapter;
+            this.MonitorId = monitorId;
+            this.Monitor = monitor;
+        }
+
+        public int AdapterId { get; private set; }
+        public Adapter Adapter { get; private set; }
+        public int MonitorId { get; private set; }
+        public Output Monitor { get; private set; }
     }
 }

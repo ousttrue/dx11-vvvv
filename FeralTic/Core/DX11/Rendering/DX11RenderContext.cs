@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using SlimDX.Direct3D11;
-using Device = SlimDX.Direct3D11.Device;
-using SlimDX.DXGI;
-
-using FeralTic.Utils;
-using FeralTic.DX11.Geometry;
+﻿using FeralTic.DX11.Geometry;
 using FeralTic.DX11.Resources;
+using FeralTic.Utils;
+using System;
+
 
 namespace FeralTic.DX11
 {
     public partial class DX11RenderContext : IDisposable
     {
-        public Device Device { get; private set; }
-        public DeviceContext CurrentDeviceContext { get; private set; }
-
-        public Factory1 Factory { get; private set; }
-        public Adapter1 Adapter { get; private set; }
+        public SlimDX.Direct3D11.Device Device { get; private set; }
         public DXGIScreen Screen { get; private set; }
-
-        private DeviceContext immediatecontext;
 
         public DefaultTextures DefaultTextures { get; private set; }
         public DX11ResourcePoolManager ResourcePool { get; private set; }
@@ -31,40 +18,60 @@ namespace FeralTic.DX11
         public DX11RenderStateStack RenderStateStack { get; private set; }
         public DX11ResourceScheduler ResourceScheduler { get; private set; }
 
-        private ShaderResourceView[] nullsrvs = new ShaderResourceView[128];
-        private UnorderedAccessView[] nulluavs = new UnorderedAccessView[8];
+        private SlimDX.Direct3D11.ShaderResourceView[] nullsrvs = new SlimDX.Direct3D11.ShaderResourceView[128];
+        private SlimDX.Direct3D11.UnorderedAccessView[] nulluavs = new SlimDX.Direct3D11.UnorderedAccessView[8];
 
-        public DX11RenderContext(DeviceCreationFlags flags = DeviceCreationFlags.None)
+        public DX11RenderContext(SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
         {
-            this.Device = new Device(DriverType.Hardware,flags);
-            this.immediatecontext = this.Device.ImmediateContext;
-            this.CurrentDeviceContext = this.immediatecontext;
+            this.Device = new SlimDX.Direct3D11.Device(SlimDX.Direct3D11.DriverType.Hardware, flags);
+            SetAdapter();
         }
 
-        public DX11RenderContext(Factory1 factory, DXGIScreen screen, DeviceCreationFlags flags = DeviceCreationFlags.None)
+        public DX11RenderContext(SlimDX.DXGI.Factory1 factory, DXGIScreen screen
+            , SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
         {
-            this.Factory = factory;
             this.Screen = screen;
-            this.Device = new Device(screen.Adapter, flags);
-            this.immediatecontext = this.Device.ImmediateContext;
-            this.CurrentDeviceContext = this.immediatecontext;
+            this.Device = new SlimDX.Direct3D11.Device(screen.Adapter, flags);
         }
 
-        public DX11RenderContext(Adapter1 adapter, DeviceCreationFlags flags = DeviceCreationFlags.None)
+        public DX11RenderContext(SlimDX.DXGI.Adapter1 adapter, SlimDX.Direct3D11.DeviceCreationFlags flags = SlimDX.Direct3D11.DeviceCreationFlags.None)
         {
-            this.Device = new Device(adapter, flags);
-            this.Adapter = adapter;
-            this.Factory = this.Device.Factory as Factory1;
-            this.immediatecontext = this.Device.ImmediateContext;
-            this.CurrentDeviceContext = this.immediatecontext;
+            this.Device = new SlimDX.Direct3D11.Device(adapter, flags);
+            SetAdapter();
         }
 
-        public DX11RenderContext(Device device)
+        public DX11RenderContext(SlimDX.Direct3D11.Device device)
         {
             this.Device = device;
-            this.Factory = this.Device.Factory as Factory1;
-            this.immediatecontext = this.Device.ImmediateContext;
-            this.CurrentDeviceContext = this.immediatecontext;
+            SetAdapter();
+        }
+
+        void SetAdapter()
+        {
+            var factory = this.Device.Factory;
+            using (var dxgiDevice = new SlimDX.DXGI.Device(this.Device))
+            {
+                var adapterCount = factory.GetAdapterCount();
+                for (int i = 0; i < adapterCount; ++i)
+                {
+                    var adapter = factory.GetAdapter(i);
+                    if (adapter == dxgiDevice.Adapter)
+                    {
+                        if (adapter.GetOutputCount() > 0)
+                        {
+                            var output = adapter.GetOutput(0);
+                            this.Screen = new DXGIScreen(i, adapter, 0, output);
+                        }
+                        else
+                        {
+                            this.Screen = new DXGIScreen(i, adapter, -1, null);
+                        }
+                        break;
+                    }
+                    adapter.Dispose();
+                }
+            }
+
         }
 
         public void Initialize(int schedulerthreadcount = 1)
@@ -76,14 +83,7 @@ namespace FeralTic.DX11
             this.RenderStateStack = new DX11RenderStateStack(this);
             this.ResourceScheduler = new DX11ResourceScheduler(this, schedulerthreadcount);
             this.ResourceScheduler.Initialize();
-
             this.CheckBufferSupport();
-
-            if (this.Factory == null)
-            {
-                this.Factory = this.Device.Factory as Factory1;
-            }
-
             this.BuildFormatSampling();
         }
 
@@ -112,57 +112,58 @@ namespace FeralTic.DX11
 
         public void CleanUp()
         {
-            this.immediatecontext.PixelShader.SetShaderResources(nullsrvs, 0, 128);
-            this.immediatecontext.DomainShader.SetShaderResources(nullsrvs, 0, 128);
-            this.immediatecontext.HullShader.SetShaderResources(nullsrvs, 0, 128);
-            this.immediatecontext.GeometryShader.SetShaderResources(nullsrvs, 0, 128);
-            this.immediatecontext.VertexShader.SetShaderResources(nullsrvs, 0, 128);
+            var context = Device.ImmediateContext;
+            context.PixelShader.SetShaderResources(nullsrvs, 0, 128);
+            context.DomainShader.SetShaderResources(nullsrvs, 0, 128);
+            context.HullShader.SetShaderResources(nullsrvs, 0, 128);
+            context.GeometryShader.SetShaderResources(nullsrvs, 0, 128);
+            context.VertexShader.SetShaderResources(nullsrvs, 0, 128);
             this.CleanUpCS();
         }
 
         public void CleanUpPS()
         {
-            this.immediatecontext.PixelShader.SetShaderResources(nullsrvs, 0, 128);
+            Device.ImmediateContext.PixelShader.SetShaderResources(nullsrvs, 0, 128);
         }
 
         public void CleanUpCS()
         {
-            this.immediatecontext.ComputeShader.SetShaderResources(nullsrvs, 0, 128);
+            Device.ImmediateContext.ComputeShader.SetShaderResources(nullsrvs, 0, 128);
 
             if (this.IsFeatureLevel11)
             {
-                this.CurrentDeviceContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 8);
+                this.Device.ImmediateContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 8);
             }
             else
             {
-                this.CurrentDeviceContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 1);
+                this.Device.ImmediateContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 1);
             }
         }
 
         public void CleanShaderStages()
         {
-            this.immediatecontext.HullShader.Set(null);
-            this.immediatecontext.DomainShader.Set(null);
-            this.immediatecontext.VertexShader.Set(null);
-            this.immediatecontext.PixelShader.Set(null);
-            this.immediatecontext.GeometryShader.Set(null);
-            this.immediatecontext.ComputeShader.Set(null);
+            var context = Device.ImmediateContext;
+            context.HullShader.Set(null);
+            context.DomainShader.Set(null);
+            context.VertexShader.Set(null);
+            context.PixelShader.Set(null);
+            context.GeometryShader.Set(null);
+            context.ComputeShader.Set(null);
         }
 
         public void Dispose()
         {
-            this.immediatecontext.ClearState();
+            Device.ImmediateContext.ClearState();
 
             this.ResourcePool.Dispose();
             this.DefaultTextures.Dispose();
             this.Primitives.Dispose();
             this.ResourceScheduler.Dispose();
 
-            this.immediatecontext.Dispose(); 
             this.Device.Dispose();
         }
 
-        public FeatureLevel FeatureLevel { get { return this.Device.FeatureLevel; } }
+        public SlimDX.Direct3D11.FeatureLevel FeatureLevel { get { return this.Device.FeatureLevel; } }
 
         public bool IsFeatureLevel11 { get { return this.Device.FeatureLevel >= SlimDX.Direct3D11.FeatureLevel.Level_11_0; } }
         public bool IsAtLeast101 { get { return this.Device.FeatureLevel >= SlimDX.Direct3D11.FeatureLevel.Level_10_1; } }

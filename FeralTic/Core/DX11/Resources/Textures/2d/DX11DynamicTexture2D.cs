@@ -44,7 +44,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteData(IntPtr ptr, int len)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            var ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
             //db.Data.WriteRange(ptr, (long)len);
             memcpy(db.Data.DataPointer, ptr, len);
@@ -54,7 +54,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteDataPitch(IntPtr ptr, int len, int rowsize = 4)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            var ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
 
             int w= desc.Width;
@@ -75,7 +75,7 @@ namespace FeralTic.DX11.Resources
 
         /*public void WriteDataPitch(byte[] b, int len, int rowsize = 4)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
 
             int w = desc.Width;
@@ -98,7 +98,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteData(float[] data, int chans)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource,0,0, MapMode.WriteDiscard,SlimDX.Direct3D11.MapFlags.None);
 
             int pos = 0;
@@ -126,7 +126,7 @@ namespace FeralTic.DX11.Resources
         {
             if (rowpitch == -1)
             {
-                DeviceContext ctx = this.context.CurrentDeviceContext;
+                DeviceContext ctx = this.context.Device.ImmediateContext;
                 DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
                 int val = 0;
                 try
@@ -147,7 +147,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteDataStride(byte[] data)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
 
             try
@@ -171,7 +171,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteDataStride(IntPtr data, long size)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
 
             byte* b = (byte*)data.ToPointer();
@@ -196,7 +196,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteDataStride(short[] data)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
 
             try
@@ -220,7 +220,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteData(byte[] data)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
             db.Data.WriteRange(data);
             ctx.UnmapSubresource(this.Resource, 0);
@@ -228,7 +228,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteData<T>(T[] data) where T : struct
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
             db.Data.WriteRange<T>(data);
             ctx.UnmapSubresource(this.Resource, 0);
@@ -236,7 +236,7 @@ namespace FeralTic.DX11.Resources
 
         public void WriteData(IntPtr data, long size)
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.WriteDiscard, SlimDX.Direct3D11.MapFlags.None);
             db.Data.WriteRange(data, size);
             ctx.UnmapSubresource(this.Resource, 0);

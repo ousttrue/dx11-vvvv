@@ -128,7 +128,7 @@ namespace VVVV.DX11.Nodes
                     int destinationSubres = SlimDX.Direct3D11.Texture2D.CalculateSubresourceIndex(0, 0, 1);
 
                     //this.logger.Log(LogType.Message, "get slice " + slice + " into " + i);
-                    context.CurrentDeviceContext.CopySubresourceRegion(source, sourceSubres, destination, destinationSubres, 0, 0, 0);
+                    context.Device.ImmediateContext.CopySubresourceRegion(source, sourceSubres, destination, destinationSubres, 0, 0, 0);
                 }
             }
         }

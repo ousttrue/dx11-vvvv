@@ -72,7 +72,7 @@ void DX11TextLayerNode::Render(IPluginIO^ pin,DX11RenderContext^ context, DX11Re
 		IFW1FontWrapper* fw = (IFW1FontWrapper*)this->fontrenderers[context].ToPointer();
 
 		ID3D11Device* dev = (ID3D11Device*)context->Device->ComPointer.ToPointer();
-		ID3D11DeviceContext* pContext = (ID3D11DeviceContext*)context->CurrentDeviceContext->ComPointer.ToPointer();
+		ID3D11DeviceContext* pContext = (ID3D11DeviceContext*)context->Device->ImmediateContext->ComPointer.ToPointer();
 
 		IFW1GlyphRenderStates* pRenderStates;
 		fw->GetRenderStates(&pRenderStates);

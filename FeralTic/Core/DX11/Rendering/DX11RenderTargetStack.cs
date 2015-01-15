@@ -59,7 +59,7 @@ namespace FeralTic.DX11
 
         public void PushViewport(Viewport vp)
         {
-            //context.CurrentDeviceContext.Rasterizer.SetViewports(new Viewport(0, 0, 50, 50, 0, 1));
+            //context.Device.ImmediateContext.Rasterizer.SetViewports(new Viewport(0, 0, 50, 50, 0, 1));
             this.viewportstack.Push(vp);
         }
 
@@ -82,7 +82,7 @@ namespace FeralTic.DX11
 
         public void Apply()
         {
-            Apply(context.CurrentDeviceContext);
+            Apply(context.Device.ImmediateContext);
         }
 
         public void Apply(DeviceContext ctx)

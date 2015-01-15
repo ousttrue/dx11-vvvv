@@ -77,7 +77,7 @@ namespace FeralTic.DX11
 
         public void ApplyPass(int index)
         {
-            this.currenttechnique.GetPassByIndex(index).Apply(this.context.CurrentDeviceContext);
+            this.currenttechnique.GetPassByIndex(index).Apply(this.context.Device.ImmediateContext);
 
             //Reapply UAVs with a reset counter
             this.ApplyCounterUAVS();
@@ -85,7 +85,7 @@ namespace FeralTic.DX11
 
         public void ApplyPass(EffectPass pass)
         {
-            pass.Apply(this.context.CurrentDeviceContext);
+            pass.Apply(this.context.Device.ImmediateContext);
             this.ApplyCounterUAVS();
         }
 
@@ -96,7 +96,7 @@ namespace FeralTic.DX11
 
         public void CleanShaderStages()
         {
-            DeviceContext ctx = this.context.CurrentDeviceContext;
+            DeviceContext ctx = this.context.Device.ImmediateContext;
             ctx.HullShader.Set(null);
             ctx.DomainShader.Set(null);
             ctx.VertexShader.Set(null);
@@ -107,15 +107,15 @@ namespace FeralTic.DX11
 
         public void CleanUp()
         {
-            this.context.CurrentDeviceContext.ComputeShader.SetShaderResources(nullsrvs, 0, 128);
+            this.context.Device.ImmediateContext.ComputeShader.SetShaderResources(nullsrvs, 0, 128);
 
             if (this.context.IsFeatureLevel11)
             {
-                this.context.CurrentDeviceContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 8);
+                this.context.Device.ImmediateContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 8);
             }
             else
             {
-                this.context.CurrentDeviceContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 1);
+                this.context.Device.ImmediateContext.ComputeShader.SetUnorderedAccessViews(nulluavs, 0, 1);
             }
         }
 
@@ -129,7 +129,7 @@ namespace FeralTic.DX11
                 bool found = false;
 
                 //Get currently bound UAVs
-                UnorderedAccessView[] uavs = this.context.CurrentDeviceContext.ComputeShader.GetUnorderedAccessViews(0, 8);
+                UnorderedAccessView[] uavs = this.context.Device.ImmediateContext.ComputeShader.GetUnorderedAccessViews(0, 8);
                 
                 //Search for uav slot, if found, reapply with counter value
                 for (i = 0; i < 8 && !found; i++)
@@ -141,7 +141,7 @@ namespace FeralTic.DX11
                 }
                 if (found)
                 {
-                    this.context.CurrentDeviceContext.ComputeShader.SetUnorderedAccessView(ru.UAV, i-1, ru.Counter);
+                    this.context.Device.ImmediateContext.ComputeShader.SetUnorderedAccessView(ru.UAV, i-1, ru.Counter);
                 }
             }
             this.resetuavs.Clear();

@@ -189,11 +189,11 @@ namespace VVVV.DX11.Nodes
 
                 if (this.FInClear[0])
                 {
-                    context.CurrentDeviceContext.ClearRenderTargetView(target.RTV, this.FInBgColor[0]);
+                    context.Device.ImmediateContext.ClearRenderTargetView(target.RTV, this.FInBgColor[0]);
 
                     if (this.FInDepthBuffer[0])
                     {
-                        context.CurrentDeviceContext.ClearDepthStencilView(depth.DSV, DepthStencilClearFlags.Depth, 1.0f, 0);
+                        context.Device.ImmediateContext.ClearDepthStencilView(depth.DSV, DepthStencilClearFlags.Depth, 1.0f, 0);
                     }
                 }
 
@@ -270,7 +270,7 @@ namespace VVVV.DX11.Nodes
 
                     if (this.FInMips[0])
                     {
-                        context.CurrentDeviceContext.GenerateMips(this.FOutTexture[0][context].SRV);
+                        context.Device.ImmediateContext.GenerateMips(this.FOutTexture[0][context].SRV);
                     }
                 }
 

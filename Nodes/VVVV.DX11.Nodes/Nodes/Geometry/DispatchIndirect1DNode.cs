@@ -89,7 +89,7 @@ namespace VVVV.DX11.Nodes.Geometry
 
             var countuav = this.FInArgBuffer[0][context];
 
-            context.CurrentDeviceContext.CopyStructureCount(countuav.UAV, this.countBuffer.Buffer, 0);
+            context.Device.ImmediateContext.CopyStructureCount(countuav.UAV, this.countBuffer.Buffer, 0);
 
             this.generateShader.SetBySemantic("WARPSIZE", this.FInWarpX[0]);
             this.generateShader.SetBySemantic("COUNTERBUFFER", this.countBuffer.SRV);
@@ -97,7 +97,7 @@ namespace VVVV.DX11.Nodes.Geometry
 
             this.generateShader.ApplyPass(0);
 
-            context.CurrentDeviceContext.Dispatch(1, 1, 1);
+            context.Device.ImmediateContext.Dispatch(1, 1, 1);
             this.generateShader.CleanUp();
 
             this.dispatchBuffer.UpdateBuffer();

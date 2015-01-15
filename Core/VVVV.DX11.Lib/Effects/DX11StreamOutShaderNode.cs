@@ -244,7 +244,7 @@ namespace VVVV.DX11.Nodes.Layers
             }
 
             Device device = context.Device;
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             if (!this.deviceshaderdata.ContainsKey(context))
             {

@@ -35,7 +35,7 @@ namespace FeralTic.DX11.Resources
 
         public void SaveToFile(string path)
         {
-            Texture1D.SaveTextureToFile(context.CurrentDeviceContext, this.Resource, ImageFileFormat.Dds, path);
+            Texture1D.SaveTextureToFile(context.Device.ImmediateContext, this.Resource, ImageFileFormat.Dds, path);
         }
 
         public override void Dispose()

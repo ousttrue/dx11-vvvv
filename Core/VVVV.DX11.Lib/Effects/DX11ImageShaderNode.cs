@@ -270,7 +270,7 @@ namespace VVVV.DX11.Nodes.Layers
         public void Update(IPluginIO pin, DX11RenderContext context)
         {
             Device device = context.Device;
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             if (!this.deviceshaderdata.ContainsKey(context))
             {

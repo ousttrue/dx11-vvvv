@@ -210,7 +210,7 @@ namespace VVVV.DX11.Nodes
 
             quadshader.ApplyPass(0);
 
-            context.CurrentDeviceContext.DrawIndexedInstanced(quadgeometry.IndexBuffer.IndicesCount, this.spmax, 0, 0, 0);
+            context.Device.ImmediateContext.DrawIndexedInstanced(quadgeometry.IndexBuffer.IndicesCount, this.spmax, 0, 0, 0);
 
             if (popstate) { context.RenderStateStack.Pop(); }
         }
@@ -251,7 +251,7 @@ namespace VVVV.DX11.Nodes
 
             quadshader.ApplyPass(0);
 
-            context.CurrentDeviceContext.DrawIndexedInstanced(quadgeometry.IndexBuffer.IndicesCount, this.spmax, 0, 0, 0);
+            context.Device.ImmediateContext.DrawIndexedInstanced(quadgeometry.IndexBuffer.IndicesCount, this.spmax, 0, 0, 0);
 
             if (popstate) { context.RenderStateStack.Pop(); }
         }

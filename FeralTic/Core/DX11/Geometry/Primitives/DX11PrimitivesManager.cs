@@ -122,13 +122,13 @@ namespace FeralTic.DX11.Geometry
         public void ApplyFullTriVS()
         {
             this.FullScreenTriangle.Bind(null);
-            this.vsonlypass.Apply(this.context.CurrentDeviceContext);
+            this.vsonlypass.Apply(this.context.Device.ImmediateContext);
         }
 
         public void ApplyFullTri()
         {
             this.FullScreenTriangle.Bind(null);
-            this.fullscreenpass.Apply(this.context.CurrentDeviceContext);
+            this.fullscreenpass.Apply(this.context.Device.ImmediateContext);
         }
 
         public void Dispose()

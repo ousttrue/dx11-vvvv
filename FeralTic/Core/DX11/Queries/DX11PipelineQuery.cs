@@ -30,12 +30,12 @@ namespace FeralTic.DX11.Queries
 
         public void Start()
         {
-            this.context.CurrentDeviceContext.Begin(query);
+            this.context.Device.ImmediateContext.Begin(query);
         }
 
         public void Stop()
         {
-            this.context.CurrentDeviceContext.End(query);
+            this.context.Device.ImmediateContext.End(query);
             this.hasrun = true;
         }
 
@@ -43,9 +43,9 @@ namespace FeralTic.DX11.Queries
         {
             if (this.hasrun == false) { return; }
 
-            while (!this.context.CurrentDeviceContext.IsDataAvailable(this.query)) { }
+            while (!this.context.Device.ImmediateContext.IsDataAvailable(this.query)) { }
 
-            this.Statistics = this.context.CurrentDeviceContext.GetData<PipelineStatistics>(this.query);
+            this.Statistics = this.context.Device.ImmediateContext.GetData<PipelineStatistics>(this.query);
         }
 
     }

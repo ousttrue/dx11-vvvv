@@ -115,7 +115,7 @@ namespace VVVV.DX11.Nodes.Renderers
 
              if (this.FEnabled[0])
              {
-                 context.CurrentDeviceContext.ClearRenderTargetView(this.swapchain[context].RTV,new SlimDX.Color4(0,0,0,0));
+                 context.Device.ImmediateContext.ClearRenderTargetView(this.swapchain[context].RTV,new SlimDX.Color4(0,0,0,0));
              }
 
              if (this.FIn.PluginIO.IsConnected && this.FEnabled[0])
@@ -129,7 +129,7 @@ namespace VVVV.DX11.Nodes.Renderers
                      if (FAlpha[0])
                      {
                      	rs.Blend = DX11BlendStates.Instance.GetState("Blend");
-                     	context.CurrentDeviceContext.ClearRenderTargetView(this.swapchain[context].RTV, FInBgColor[0].Color);
+                     	context.Device.ImmediateContext.ClearRenderTargetView(this.swapchain[context].RTV, FInBgColor[0].Color);
                      }
                      context.RenderStateStack.Push(rs);
                      context.CleanShaderStages();

@@ -120,7 +120,7 @@ namespace FeralTic.DX11.Resources
 
         public void Clear(Color4 color)
         {
-            this.context.CurrentDeviceContext.ClearRenderTargetView(this.RTV, color);
+            this.context.Device.ImmediateContext.ClearRenderTargetView(this.RTV, color);
         }
 
         public override void Dispose()

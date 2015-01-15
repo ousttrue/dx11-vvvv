@@ -41,17 +41,17 @@ namespace FeralTic.DX11.Resources
 
         public DataBox LockForRead()
         {
-            return this.context.CurrentDeviceContext.MapSubresource(this.Resource, 0, 0, MapMode.Read, SlimDX.Direct3D11.MapFlags.None);
+            return this.context.Device.ImmediateContext.MapSubresource(this.Resource, 0, 0, MapMode.Read, SlimDX.Direct3D11.MapFlags.None);
         }
 
         public void UnLock()
         {
-            this.context.CurrentDeviceContext.UnmapSubresource(this.Resource, 0);  
+            this.context.Device.ImmediateContext.UnmapSubresource(this.Resource, 0);  
         }
 
         public void CopyFrom(DX11Texture2D tex)
         {
-            this.context.CurrentDeviceContext.CopyResource(tex.Resource, this.Resource);
+            this.context.Device.ImmediateContext.CopyResource(tex.Resource, this.Resource);
         }
 
         private int rowpitch = -1;
@@ -60,7 +60,7 @@ namespace FeralTic.DX11.Resources
         {
             if (rowpitch == -1)
             {
-                DeviceContext ctx = this.context.CurrentDeviceContext;
+                DeviceContext ctx = this.context.Device.ImmediateContext;
                 DataBox db = ctx.MapSubresource(this.Resource, 0, 0, MapMode.Read, SlimDX.Direct3D11.MapFlags.None);
                 int val = 0;
                 try

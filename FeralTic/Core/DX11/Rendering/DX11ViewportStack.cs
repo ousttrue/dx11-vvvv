@@ -28,15 +28,16 @@ namespace FeralTic.DX11
 
         public void Apply(DX11RenderContext context)
         {
-            context.CurrentDeviceContext.Rasterizer.SetViewports(this.Viewport);
+            var immediatecontext = context.Device.ImmediateContext;
+            immediatecontext.Rasterizer.SetViewports(this.Viewport);
 
             if (this.HasScissor)
             {
-                context.CurrentDeviceContext.Rasterizer.SetScissorRectangles(this.Scissor);
+                immediatecontext.Rasterizer.SetScissorRectangles(this.Scissor);
             }
             else
             {
-                context.CurrentDeviceContext.Rasterizer.SetScissorRectangles(null);
+                immediatecontext.Rasterizer.SetScissorRectangles(null);
             }
         }
 

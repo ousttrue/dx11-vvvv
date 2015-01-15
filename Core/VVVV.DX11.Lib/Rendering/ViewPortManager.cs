@@ -22,7 +22,7 @@ namespace VVVV.DX11.Lib.Rendering
         public void SetDefaultViewPort(float cw, float ch)
         {
             Viewport vp = new Viewport(0, 0, cw, ch);
-            ctx.CurrentDeviceContext.Rasterizer.SetViewports(vp);
+            ctx.Device.ImmediateContext.Rasterizer.SetViewports(vp);
         }
 
         public void SetViewPort(float cw, float ch, Viewport nvp)
@@ -36,7 +36,7 @@ namespace VVVV.DX11.Lib.Rendering
             vp.X = (x * cw) - (vp.Width / 2.0f);
             vp.Y = (y * ch) - (vp.Height / 2.0f);
 
-            ctx.CurrentDeviceContext.Rasterizer.SetViewports(vp);
+            ctx.Device.ImmediateContext.Rasterizer.SetViewports(vp);
         }
     }
 }

@@ -117,7 +117,7 @@ namespace VVVV.DX11.Nodes.Renderers.Graphics
         public void Render(DX11RenderContext context)
         {
             Device device = context.Device;
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             //Just in case
             if (!this.updateddevices.Contains(context))

@@ -72,10 +72,10 @@ namespace VVVV.DX11.Nodes
                     
 
                     ResourceRegion region = new ResourceRegion(0,0,0,this.FInElementCount[0]*b.Stride,1,1);
-                    /*this.AssignedContext.CurrentDeviceContext.CopySubresourceRegion(b.Buffer, 0, staging.Buffer, 0, */
-                    this.AssignedContext.CurrentDeviceContext.CopySubresourceRegion(b.Buffer, 0, region,staging.Buffer, 0, 0, 0, 0);
+                    /*this.AssignedContext.Device.ImmediateContext.CopySubresourceRegion(b.Buffer, 0, staging.Buffer, 0, */
+                    this.AssignedContext.Device.ImmediateContext.CopySubresourceRegion(b.Buffer, 0, region,staging.Buffer, 0, 0, 0, 0);
 
-                    /*this.AssignedContext.CurrentDeviceContext.CopyResource(b.Buffer, staging.Buffer);*/
+                    /*this.AssignedContext.Device.ImmediateContext.CopyResource(b.Buffer, staging.Buffer);*/
 
                     foreach (IIOContainer sp in this.outspreads)
                     {
@@ -83,7 +83,7 @@ namespace VVVV.DX11.Nodes
                         s.SliceCount = elementcount;
                     }
 
-                    DataStream ds = staging.MapForRead(this.AssignedContext.CurrentDeviceContext);
+                    DataStream ds = staging.MapForRead(this.AssignedContext.Device.ImmediateContext);
 
                     for (int i = 0; i < elementcount; i++)
                     {
@@ -139,7 +139,7 @@ namespace VVVV.DX11.Nodes
 
                     }
 
-                    staging.UnMap(this.AssignedContext.CurrentDeviceContext);
+                    staging.UnMap(this.AssignedContext.Device.ImmediateContext);
 
                     staging.Dispose();
                 }

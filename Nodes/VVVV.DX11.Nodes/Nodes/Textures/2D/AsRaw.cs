@@ -84,7 +84,7 @@ namespace VVVV.DX11.Nodes
                             FStreamOut[i].Position = 0;
                             FStreamOut[i].SetLength(0);
 
-                            Texture2D.ToStream(this.AssignedContext.CurrentDeviceContext, this.FTextureIn[i][this.AssignedContext].Resource, this.FInFormat[i], FStreamOut[i]);
+                            Texture2D.ToStream(this.AssignedContext.Device.ImmediateContext, this.FTextureIn[i][this.AssignedContext].Resource, this.FInFormat[i], FStreamOut[i]);
 
                             FStreamOut.Flush(true);
 

@@ -67,7 +67,7 @@ namespace VVVV.DX11.Nodes
         public void Update(IPluginIO pin, DX11RenderContext context)
         {
             Device device = context.Device;
-            DeviceContext ctx = context.CurrentDeviceContext;
+            DeviceContext ctx = context.Device.ImmediateContext;
 
             for (int i = 0; i < this.FOutGeom.SliceCount; i++)
             {

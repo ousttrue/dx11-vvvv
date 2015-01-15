@@ -236,7 +236,7 @@ namespace VVVV.DX11.Lib.Rendering
         {
             if (this.currentmode == eDepthBufferMode.Standard)
             {
-                context.CurrentDeviceContext.ClearDepthStencilView(this.depthoutputpin.IOObject[0][context].DSV, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
+                context.Device.ImmediateContext.ClearDepthStencilView(this.depthoutputpin.IOObject[0][context].DSV, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
             }
         }
     }

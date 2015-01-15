@@ -58,7 +58,7 @@ namespace VVVV.DX11.Nodes
                     DX11StagingStructuredBuffer staging = new DX11StagingStructuredBuffer(this.AssignedContext.Device
                         , b.ElementCount, b.Stride);
 
-                    this.AssignedContext.CurrentDeviceContext.CopyResource(b.Buffer, staging.Buffer);
+                    this.AssignedContext.Device.ImmediateContext.CopyResource(b.Buffer, staging.Buffer);
 
                     foreach (IIOContainer sp in this.outspreads)
                     {
@@ -66,7 +66,7 @@ namespace VVVV.DX11.Nodes
                         s.SliceCount = b.ElementCount;
                     }
 
-                    DataStream ds = staging.MapForRead(this.AssignedContext.CurrentDeviceContext);
+                    DataStream ds = staging.MapForRead(this.AssignedContext.Device.ImmediateContext);
 
                     for (int i = 0; i < b.ElementCount; i++)
                     {
@@ -122,7 +122,7 @@ namespace VVVV.DX11.Nodes
 
                     }
 
-                    staging.UnMap(this.AssignedContext.CurrentDeviceContext);
+                    staging.UnMap(this.AssignedContext.Device.ImmediateContext);
 
                     staging.Dispose();
                 }

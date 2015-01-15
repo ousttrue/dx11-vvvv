@@ -59,13 +59,7 @@ namespace VVVV.DX11.Lib.Devices
                 for (int j = 0; j < adapter.GetOutputCount(); j++)
                 {
                     Output output = adapter.GetOutput(j);
-
-                    DXGIScreen screen = new DXGIScreen();
-                    screen.Adapter = adapter;
-                    screen.AdapterId = i;
-                    screen.Monitor = output;
-                    screen.MonitorId = j;
-
+                    var screen = new DXGIScreen(i, adapter, j, output);
                     screens.Add(screen);
                 }
             }

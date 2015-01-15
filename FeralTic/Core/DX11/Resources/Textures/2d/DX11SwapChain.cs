@@ -55,7 +55,7 @@ namespace FeralTic.DX11.Resources
 
             this.Resource = Texture2D.FromSwapChain<Texture2D>(this.swapchain, 0);
 
-            this.context.Factory.SetWindowAssociation(handle, WindowAssociationFlags.IgnoreAltEnter);
+            this.context.Device.Factory.SetWindowAssociation(handle, WindowAssociationFlags.IgnoreAltEnter);
 
             this.RTV = new RenderTargetView(context.Device, this.Resource);
             this.SRV = new ShaderResourceView(context.Device, this.Resource);

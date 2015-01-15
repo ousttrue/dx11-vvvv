@@ -80,12 +80,12 @@ namespace VVVV.DX11.Nodes.Geometry
 
                     if (this.FInI.PluginIO.IsConnected)
                     {
-                        drawer.IndirectArgs.CopyInstanceCount(context.CurrentDeviceContext, this.FInI[i][context].UAV);
+                        drawer.IndirectArgs.CopyInstanceCount(context.Device.ImmediateContext, this.FInI[i][context].UAV);
                     }
 
                     if (this.FInV.PluginIO.IsConnected)
                     {
-                        drawer.IndirectArgs.CopyVertexCount(context.CurrentDeviceContext, this.FInV[i][context].UAV);
+                        drawer.IndirectArgs.CopyVertexCount(context.Device.ImmediateContext, this.FInV[i][context].UAV);
                     }
                 }
             }

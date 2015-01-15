@@ -60,13 +60,13 @@ namespace VVVV.DX11.Nodes
             {
                 if (this.FLayerIn.PluginIO.IsConnected)
                 {
-                    var currentRef = context.CurrentDeviceContext.OutputMerger.DepthStencilReference;
+                    var currentRef = context.Device.ImmediateContext.OutputMerger.DepthStencilReference;
 
-                    context.CurrentDeviceContext.OutputMerger.DepthStencilReference = this.FInReference[0];
+                    context.Device.ImmediateContext.OutputMerger.DepthStencilReference = this.FInReference[0];
 
                     this.FLayerIn[0][context].Render(this.FLayerIn.PluginIO, context, settings);
 
-                    context.CurrentDeviceContext.OutputMerger.DepthStencilReference = currentRef;
+                    context.Device.ImmediateContext.OutputMerger.DepthStencilReference = currentRef;
 
                 }
             }

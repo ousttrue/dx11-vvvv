@@ -92,7 +92,7 @@ namespace VVVV.DX11.Nodes.Textures
                             this.FPointer[0] = SharedResource.SharedHandle.ToInt64();
                         }
 
-                        this.AssignedContext.CurrentDeviceContext.CopyResource(this.FTextureIn[0][context].Resource, this.tex);
+                        this.AssignedContext.Device.ImmediateContext.CopyResource(this.FTextureIn[0][context].Resource, this.tex);
                     }
                     else
                     {

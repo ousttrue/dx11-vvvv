@@ -127,8 +127,8 @@ namespace VVVV.DX11.Lib.Devices
             {
                 try
                 {
-                    ctx.CurrentDeviceContext.ClearState();
-                    ctx.CurrentDeviceContext.Flush();
+                    ctx.Device.ImmediateContext.ClearState();
+                    ctx.Device.ImmediateContext.Flush();
                 }
                 catch { }
 

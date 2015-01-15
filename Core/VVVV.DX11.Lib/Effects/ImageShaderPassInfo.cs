@@ -104,12 +104,12 @@ namespace VVVV.DX11.Lib.Effects
 
         public void Dispatch(DX11RenderContext context, int w, int h)
         {
-            context.CurrentDeviceContext.PixelShader.Set(null);
+            context.Device.ImmediateContext.PixelShader.Set(null);
 
             int tgx = (w + (this.tX - 1)) / this.tX;
             int tgy = (h + (this.tY - 1)) / this.tY;
 
-            context.CurrentDeviceContext.Dispatch(tgx, tgy, 1);
+            context.Device.ImmediateContext.Dispatch(tgx, tgy, 1);
         }
     }
 

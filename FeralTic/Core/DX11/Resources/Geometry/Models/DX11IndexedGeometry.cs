@@ -80,12 +80,12 @@ namespace FeralTic.DX11.Resources
 
         public DataStream LockVertexBuffer()
         {
-            return this.context.CurrentDeviceContext.MapSubresource(this.VertexBuffer, MapMode.WriteDiscard, MapFlags.None).Data;
+            return this.context.Device.ImmediateContext.MapSubresource(this.VertexBuffer, MapMode.WriteDiscard, MapFlags.None).Data;
         }
 
         public void UnlockVertexBuffer()
         {
-            this.context.CurrentDeviceContext.UnmapSubresource(this.VertexBuffer, 0);
+            this.context.Device.ImmediateContext.UnmapSubresource(this.VertexBuffer, 0);
         }
 
         public void AssignDrawer(IDX11GeometryDrawer<DX11IndexedGeometry> drawer)
@@ -96,7 +96,7 @@ namespace FeralTic.DX11.Resources
 
         public void Draw(IDX11GeometryDrawer<DX11IndexedGeometry> drawer)
         {
-            drawer.Draw(this.context.CurrentDeviceContext);
+            drawer.Draw(this.context.Device.ImmediateContext);
         }
 
         public DX11IndexedGeometry(DX11IndexedGeometry owner)
@@ -118,7 +118,7 @@ namespace FeralTic.DX11.Resources
 
         public override void Draw()
         {
-            Draw(this.context.CurrentDeviceContext);
+            Draw(this.context.Device.ImmediateContext);
         }
 
         public override void Draw(DeviceContext ctx)
@@ -134,7 +134,7 @@ namespace FeralTic.DX11.Resources
 
         public override void Bind(InputLayout layout)
         {
-            Bind(context.CurrentDeviceContext, layout);
+            Bind(context.Device.ImmediateContext, layout);
         }
 
         public override void Dispose()
